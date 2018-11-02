@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyListener", "MyListener\MyListener.csproj", "{7BF56EBE-6A1A-4194-BFA2-3610CAC9FC31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Differentiation", "Differentiation\Differentiation.csproj", "{DB1969CD-092B-44C7-98B5-42E2D977AFF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgBot", "TgBot\TgBot.csproj", "{C6D14616-164C-4C3F-BF85-16B0CAE65E67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BF56EBE-6A1A-4194-BFA2-3610CAC9FC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BF56EBE-6A1A-4194-BFA2-3610CAC9FC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BF56EBE-6A1A-4194-BFA2-3610CAC9FC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BF56EBE-6A1A-4194-BFA2-3610CAC9FC31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB1969CD-092B-44C7-98B5-42E2D977AFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB1969CD-092B-44C7-98B5-42E2D977AFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB1969CD-092B-44C7-98B5-42E2D977AFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB1969CD-092B-44C7-98B5-42E2D977AFF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D14616-164C-4C3F-BF85-16B0CAE65E67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D14616-164C-4C3F-BF85-16B0CAE65E67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D14616-164C-4C3F-BF85-16B0CAE65E67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D14616-164C-4C3F-BF85-16B0CAE65E67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86FBED1C-BA12-42E8-A484-D53E85BF0F84}
+	EndGlobalSection
+EndGlobal

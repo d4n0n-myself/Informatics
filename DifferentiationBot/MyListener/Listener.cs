@@ -45,29 +45,30 @@ namespace MyListener
 
             while (true)
             {
-                var context1 = _httpListener.GetContext();
-                //var context = await _httpListener.GetContextAsync();
+                var context1 = _httpListener.GetContext(); // work
+                //var context = await _httpListener.GetContextAsync(); // doesn't work ? 
                 var result = await GetDifferentiation(context1.Request.QueryString["Expression"]);
                 var buffer = Encoding.UTF8.GetBytes(result);
                 using (var outputStream = context1.Response.OutputStream)
                     outputStream.Write(buffer, 0, buffer.Length);
             }
         }
-        
+
         private static async Task<string> GetDifferentiation(string input)
         {
             try
             {
                 var diff = ConvertStringToExpression(input);
-                return Differentiation.Algebra.Differentiate(diff).ToString();
+                var result = Differentiation.Algebra.Differentiate(diff).ToString();
+                return result;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return "Wrong function";
+                return "Wrong function" + e.Message;
             }
         }
-        
+
         private static Expression<Func<double, double>> ConvertStringToExpression(string str)
         {
             var providerOptions = new Dictionary<string, string>
@@ -91,10 +92,12 @@ class Converter
 }"
             );
 
-            return (Expression<Func<double, double>>)results.CompiledAssembly
-                .GetType("Converter")
+            var x = results.CompiledAssembly
+                .GetType("Converter");
+            var y = (Expression<Func<double, double>>)x
                 .GetMethod("Convert")
                 .Invoke(null, null);
+            return y;
         }
     }
 }
