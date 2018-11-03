@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 
@@ -11,9 +10,9 @@ namespace MyListener
 {
     public class Listener
     {
-        private HttpListener _httpListener;
-        private bool isListening;
-        private string _url;
+        private readonly HttpListener _httpListener;
+        private bool _isListening;
+        private readonly string _url;
 
         private Listener(string url)
         {
@@ -30,31 +29,31 @@ namespace MyListener
             Console.ReadKey();
         }
 
-        public static Listener RunNew()
+        private static Listener RunNew()
         {
             var listener = new Listener($"http://localhost:1234/");
             listener.Run();
             return listener;
         }
 
-        private async void Run()
+        private void Run()
         {
-            if (isListening) return;
-            isListening = true;
+            if (_isListening) return;
+            _isListening = true;
             Console.WriteLine($"Now listening on {_url}");
 
             while (true)
             {
                 var context1 = _httpListener.GetContext(); // work
                 //var context = await _httpListener.GetContextAsync(); // doesn't work ? 
-                var result = await GetDifferentiation(context1.Request.QueryString["Expression"]);
+                var result = GetDifferentiation(context1.Request.QueryString["Expression"]);
                 var buffer = Encoding.UTF8.GetBytes(result);
                 using (var outputStream = context1.Response.OutputStream)
                     outputStream.Write(buffer, 0, buffer.Length);
             }
         }
 
-        private static async Task<string> GetDifferentiation(string input)
+        private static string GetDifferentiation(string input)
         {
             try
             {
@@ -92,12 +91,18 @@ class Converter
 }"
             );
 
-            var x = results.CompiledAssembly
-                .GetType("Converter");
-            var y = (Expression<Func<double, double>>)x
-                .GetMethod("Convert")
-                .Invoke(null, null);
-            return y;
+            try
+            {
+                return (Expression<Func<double,double>>)results.CompiledAssembly
+                    .GetType("Converter")
+                    .GetMethod("Convert")
+                    .Invoke(null, null);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return arg => 1.0;
+            }
         }
     }
 }

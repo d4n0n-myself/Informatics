@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Differentiation
 {
-    public class Algebra
+    public static class Algebra
     {
         public static Expression<Func<double, double>> Differentiate(
             Expression<Func<double, double>> function)
@@ -26,36 +26,31 @@ namespace Differentiation
                 case ExpressionType.Constant:
                     return Expression.Constant(0.0);
                 case ExpressionType.Add:
-                    newExp = func as BinaryExpression;
+                    newExp = func as BinaryExpression ?? throw new ArgumentException(nameof(func));
                     leftExp = CommonDifferentiate(
                         Expression.Lambda(newExp.Left, parameters[0]), parameters);
                     rightExp = CommonDifferentiate(
                         Expression.Lambda(newExp.Right, parameters[0]), parameters);
                     return Expression.Add(leftExp, rightExp);
                 case ExpressionType.Lambda:
-                    var lambda = func as LambdaExpression;
+                    var lambda = func as LambdaExpression ?? throw new ArgumentException(nameof(func));
                     return CommonDifferentiate(lambda.Body, lambda.Parameters);
                 case ExpressionType.Parameter:
                     return Expression.Constant(1.0);
                 case ExpressionType.Call:
-                    var callExpression = func as MethodCallExpression;
+                    var callExpression = func as MethodCallExpression ?? throw new ArgumentException(nameof(func));
                     var method = callExpression.Method;
                     switch (method.Name)
                     {
                         case "Cos":
-                            {
-                                return Expression.Multiply(Expression.Constant(-1.0),
-                                    GetMethodDifferential("Sin", callExpression, parameters));
-                            }
+                            return Expression.Multiply(Expression.Constant(-1.0),
+                                GetMethodDifferential("Sin", callExpression, parameters));
                         case "Sin":
-                            {
-                                return GetMethodDifferential("Cos", callExpression, parameters);
-                            }
+                            return GetMethodDifferential("Cos", callExpression, parameters);
                     }
-
                     break;
                 case ExpressionType.Multiply:
-                    newExp = func as BinaryExpression;
+                    newExp = func as BinaryExpression ?? throw new ArgumentException(nameof(func));
                     if (newExp.Left.NodeType == ExpressionType.Constant &&
                         newExp.Right.NodeType == ExpressionType.Parameter)
                         return newExp.Left;
@@ -67,10 +62,10 @@ namespace Differentiation
                         return Expression.Multiply(Expression.Constant(2.0), newExp.Left);
                     leftExp = CommonDifferentiate(
                         Expression.Lambda<Func<double, double>>(newExp.Left, parameters[0]),
-                            parameters);
+                        parameters);
                     rightExp = CommonDifferentiate(
                         Expression.Lambda<Func<double, double>>(newExp.Right, parameters[0]),
-                            parameters);
+                        parameters);
                     return Expression.Add(Expression.Multiply(leftExp,
                             newExp.Right),
                         Expression.Multiply(newExp.Left,
