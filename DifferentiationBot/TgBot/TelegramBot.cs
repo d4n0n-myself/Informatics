@@ -15,7 +15,7 @@ namespace TgBot
     {
         private static ITelegramBotClient BotClient { get; set; }
 
-        private const string ApiToken = "666534499:AAFuj7s8Q31cbi_cEbYJAV9IzAzQO2JYKls";
+        private const string ApiToken = "";
 
         public static void Main(params string[] args)
         {
